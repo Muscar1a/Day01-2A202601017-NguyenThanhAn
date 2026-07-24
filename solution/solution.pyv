@@ -455,12 +455,8 @@ def batch_compare(prompts: list[str]) -> list[dict]:
         List các dict — mỗi dict là kết quả compare_models kèm thêm
         key "prompt" chứa prompt gốc.
     """
-    results = []
-    for p in prompts:
-        res = compare_models(p)
-        res["prompt"] = p
-        results.append(res)
-    return results
+    # TODO (bonus): lặp qua prompts, gọi compare_models, thêm key "prompt"
+    raise NotImplementedError("Implement batch_compare")
 
 
 def format_comparison_table(results: list[dict]) -> str:
@@ -470,36 +466,8 @@ def format_comparison_table(results: list[dict]) -> str:
     Cột: Prompt | GPT-4o Response | Mini Response | GPT-4o Latency | Mini Latency
     Gợi ý: cắt text dài còn 40 ký tự cho dễ nhìn.
     """
-    def truncate(text: str, length: int = 40) -> str:
-        s = str(text).replace("\n", " ")
-        if len(s) > length:
-            return s[:length - 3] + "..."
-        return s
-
-    headers = ["Prompt", "GPT-4o Response", "Mini Response", "GPT-4o Latency", "Mini Latency"]
-    rows = []
-    for r in results:
-        p = truncate(r.get("prompt", ""), 40)
-        g_resp = truncate(r.get("gpt4o_response", ""), 40)
-        m_resp = truncate(r.get("mini_response", ""), 40)
-        g_lat = f"{r.get('gpt4o_latency', 0.0):.2f}s"
-        m_lat = f"{r.get('mini_latency', 0.0):.2f}s"
-        rows.append([p, g_resp, m_resp, g_lat, m_lat])
-
-    col_widths = [len(h) for h in headers]
-    for row in rows:
-        for i, val in enumerate(row):
-            col_widths[i] = max(col_widths[i], len(val))
-
-    header_line = " | ".join(h.ljust(col_widths[i]) for i, h in enumerate(headers))
-    separator_line = "-+-".join("-" * col_widths[i] for i in range(len(headers)))
-
-    row_lines = [
-        " | ".join(val.ljust(col_widths[i]) for i, val in enumerate(row))
-        for row in rows
-    ]
-
-    return "\n".join([header_line, separator_line] + row_lines)
+    # TODO (bonus): dựng chuỗi bảng và trả về
+    raise NotImplementedError("Implement format_comparison_table")
 
 
 # ---------------------------------------------------------------------------
